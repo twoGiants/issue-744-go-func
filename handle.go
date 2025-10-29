@@ -21,6 +21,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("Received request")
+	fmt.Println("Hello Knative Func!")
 	fmt.Printf("%q\n", dump)
 	fmt.Fprintf(w, "%q", dump)
 }
