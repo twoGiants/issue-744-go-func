@@ -9,28 +9,28 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-    - name: Checkout code
+    - name: 1. Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Kubernetes context
+    - name: 2. Setup Kubernetes context
       uses: azure/k8s-set-context@v4
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBECONFIG }}
 
-    - name: Login to container registry
-      if: vars.USE_REGISTRY_AUTH == 'true'
+    - name: 3. Login to container registry
+      if: ${{ vars.USE_REGISTRY_AUTH == 'true' }}
       uses: docker/login-action@v3
       with:
-        registry: ${{ secrets.REGISTRY_URL }}
+        registry: ${{ vars.REGISTRY_HOST }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
-    - name: Install func cli
+    - name: 4. Install func cli
       uses: gauron99/knative-func-action@main
       with:
         version: knative-v1.19.1
         name: func
 
-    - name: Deploy function
-      run: func deploy --remote --registry=${{ secrets.REGISTRY_URL }} -v
+    - name: 5. Deploy function
+      run: func deploy --remote --registry=${{ vars.NAMESPACED_REGISTRY_URL }} -v
