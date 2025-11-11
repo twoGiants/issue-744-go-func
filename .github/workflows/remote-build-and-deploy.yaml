@@ -31,7 +31,7 @@ jobs:
       id: cache-func
       uses: actions/cache@v4
       with:
-        path: ~/bin/func
+        path: func
         key: func-cli-knative-v1.19.1-${{ runner.os }}
 
     - name: Install func cli
@@ -40,11 +40,6 @@ jobs:
       with:
         version: knative-v1.19.1
         name: func
-        destination: ~/bin
-
-    - name: Add func to PATH
-      if: ${{ vars.USE_FUNC_CACHE == 'true' && steps.cache-func.outputs.cache-hit == 'true' }}
-      run: echo "$HOME/bin" >> $GITHUB_PATH
 
     - name: Deploy function
       run: func deploy --remote --registry=${{ vars.NAMESPACED_REGISTRY_URL }} -v
