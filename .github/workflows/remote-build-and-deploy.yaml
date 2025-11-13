@@ -43,4 +43,4 @@ jobs:
         name: func
 
     - name: Deploy function
-      run: func deploy --remote --registry=${{ vars.NAMESPACED_REGISTRY_URL }} -v
+      run: func deploy --remote --registry=${{ vars.NAMESPACED_REGISTRY_URL }} -v ${{ vars.NAMESPACE }}
