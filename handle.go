@@ -20,7 +20,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg := "Hello Knative Github Workflow Demo normal mode!!"
+	msg := "Hello Knative Github Workflow Demo internal registry!!"
 	fmt.Println("Received request")
 	fmt.Println(msg)
 	fmt.Printf("%q\n", dump)
