@@ -3,7 +3,6 @@ name: Func Deploy
   push:
     branches:
       - master
-  workflow_dispatch: {}
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,19 +20,10 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
           registry: ${{ vars.REGISTRY_LOGIN_URL }}
           username: ${{ vars.REGISTRY_USERNAME }}
-      - name: Restore func cli from cache
-        id: func-cli-cache
-        uses: actions/cache@v4
-        with:
-          key: func-cli-knative-v1.19.1
-          path: func
       - name: Install func cli
-        if: ${{ steps.func-cli-cache.outputs.cache-hit != 'true' }}
         uses: gauron99/knative-func-action@main
         with:
           name: func
           version: knative-v1.19.1
-      - name: Add func to GITHUB_PATH
-        run: echo "$GITHUB_WORKSPACE" >> $GITHUB_PATH
       - name: Deploy function
         run: func deploy --registry=${{ vars.REGISTRY_LOGIN_URL }}/${{ vars.REGISTRY_USERNAME }} -v
